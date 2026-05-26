@@ -1,0 +1,34 @@
+<label for="address"
+    class="form-label">Address</label>
+<div
+    class="d-flex flex-column justify-content-center align-items-center gap-2">
+    <div class="w-100">
+        <input type="text" class="form-control mb-2" charsOnly
+            id="city" name="city" placeholder="City" #city="ngModel"
+            required
+            [(ngModel)]="cityInput"
+            [class.is-invalid]="city.invalid && city.touched && city.dirty"
+            [class.is-valid]="city.valid">
+        <div class="invalid-feedback">*required</div>
+    </div>
+
+    <div class="w-100">
+        <input type="text" class="form-control mb-2" charsOnly
+            id="state" name="state" placeholder="State" #state="ngModel"
+            required
+            [(ngModel)]="stateInput"
+            [class.is-invalid]="state.invalid && state.touched && state.dirty"
+            [class.is-valid]="state.valid">
+        <div class="invalid-feedback">*required</div>
+    </div>
+
+    <div class="w-100">
+        <input type="text" class="form-control mb-2" (keypress)="preventChars($event)"
+            id="pincode" maxlength="6" name="pincode" #pincode="ngModel"
+            placeholder="Pincode" required [(ngModel)]="pincodeInput"
+            [class.is-invalid]="pincode.invalid && pincode.touched && pincode.dirty"
+            [class.is-valid]="pincode.valid">
+        <div class="invalid-feedback">*required</div>
+    </div>
+
+</div>
