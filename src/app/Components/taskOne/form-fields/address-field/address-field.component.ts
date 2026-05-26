@@ -1,11 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ControlContainer, NgForm } from '@angular/forms';
+import { CharsOnlyDirective } from '../../../../Directives/chars-only.directive';
 
 @Component({
   selector: 'app-address-field',
-  imports: [FormsModule],
+  imports: [FormsModule, CharsOnlyDirective],
   templateUrl: './address-field.component.html',
-  styleUrl: './address-field.component.css'
+  styleUrl: './address-field.component.css',
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }]
 })
 export class AddressFieldComponent {
 
@@ -14,7 +16,7 @@ export class AddressFieldComponent {
   pincodeInput = signal<string | null>(null)
 
   isAddressValid() {
-    return this.cityInput() !== '' && this.stateInput() !== '' && this.pincodeInput() !== '';
+    return this.cityInput() !== '' && this.stateInput() !== '' && this.pincodeInput() !== null && this.pincodeInput() !== '';
   }
 
   preventChars(event: KeyboardEvent) {
