@@ -41,6 +41,7 @@ export class FormFieldsComponent {
   onSubmit(form: NgForm) {
 
     this.customerDataService.customerData.update((data) => [...data, {
+      id: Date.now(),
       name: this.nameInput(),
       email: this.emailInput(),
       address: {

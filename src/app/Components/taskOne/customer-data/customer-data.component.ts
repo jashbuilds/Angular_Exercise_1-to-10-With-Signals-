@@ -56,6 +56,7 @@ export class CustomerDataComponent {
     this.customerService.customerData.update((data) =>
       data.map((customer) => {
         if (customer.id === this.currentEditId()) {
+          
           return {
             ...customer,
             name: this.nameEditInput(),

@@ -9,5 +9,5 @@ import { CustomColorDirective } from '../../../Directives/custom-color.directive
   styleUrl: './radio-grp.component.css'
 })
 export class RadioGrpComponent {
-  selectedOption = signal('');
+  selectedOption = signal('default');
 }
