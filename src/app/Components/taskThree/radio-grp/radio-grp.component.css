@@ -1,0 +1,9 @@
+.sampleText {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sampleText:hover {
+    transform: translateY(-3px);
+    background-color: var(--hover-color);
+}

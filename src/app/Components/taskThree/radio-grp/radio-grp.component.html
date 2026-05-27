@@ -1,1 +1,42 @@
-<p>radio-grp works!</p>
+<div class="container mt-5">
+    <div class="row">
+        <p class="h3 text-center text-muted">Task Three</p>
+
+        <div class="d-flex align-items-center justify-content-center gap-4 mt-3">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="default"
+                    id="default" checked [(ngModel)]="selectedOption"
+                    value="default" checked>
+                <label class="form-check-label" for="default">
+                    Default
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="default"
+                    id="red" [(ngModel)]="selectedOption" value="red">
+                <label class="form-check-label" for="red">
+                    Red
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="default"
+                    id="green" [(ngModel)]="selectedOption" value="green">
+                <label class="form-check-label" for="green">
+                    Green
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="default"
+                    id="yellow" [(ngModel)]="selectedOption" value="yellow">
+                <label class="form-check-label" for="yellow">
+                    Yellow
+                </label>
+            </div>
+        </div>
+
+        <p appCustomColor [appHoverColor]="selectedOption()"
+            class="mt-4 p-3 border rounded text-center sampleText">
+            Hover over me to see the color change!
+        </p>
+    </div>
+</div>

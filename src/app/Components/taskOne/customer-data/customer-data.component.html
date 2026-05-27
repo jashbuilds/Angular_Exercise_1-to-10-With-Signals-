@@ -1,6 +1,6 @@
 <app-form-fields (dataAdded)="onCustomerAdded()" />
 
-<div class="container mt-5">
+<div class="container mt-3 border border-rounded rounded-3 px-sm-5 px-3 py-4" [class]="customerService.customerData().length === 0 ? 'border-muted' : 'border-success'">
     <div class="d-flex align-items-center justify-content-end gap-2 mb-3"
         *appUnless="customerService.customerData().length === 0">
         <label for="status" class="form-label m-0 fw-medium">Status</label>
@@ -15,10 +15,9 @@
     </div>
 
     <!-- Used appUnless Directive here (Task 2 Definition) that checks if customer data is empty -->
-    <div class="text-center border border-rounded rounded-3 p-3"
+    <div class="text-center p-3"
         *appUnless="filteredCustomerData().length > 0">
         <p class="fs-3 text-secondary m-1">! No Customer Found</p>
-        <p class="fs-5 text-muted m-1">Add a new customer to get started.</p>
     </div>
     <div class="table-responsive">
         @if(filteredCustomerData().length > 0) {
