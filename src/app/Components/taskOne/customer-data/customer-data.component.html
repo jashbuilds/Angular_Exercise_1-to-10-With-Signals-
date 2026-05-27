@@ -1,0 +1,143 @@
+<app-form-fields (dataAdded)="onCustomerAdded()" />
+
+<div class="container mt-5">
+    <div class="d-flex align-items-center justify-content-end gap-2 mb-3"
+        *appUnless="customerService.customerData().length === 0">
+        <label for="status" class="form-label m-0 fw-medium">Status</label>
+        <select class="form-select w-auto" #status (change)="filterByStatus(status.value)"
+            aria-label="selection" id="status"
+            name="status"
+            [(ngModel)]="selectStatus" required>
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+    </div>
+
+    <!-- Used appUnless Directive here (Task 2 Definition) that checks if customer data is empty -->
+    <div class="text-center border border-rounded rounded-3 p-3"
+        *appUnless="filteredCustomerData().length > 0">
+        <p class="fs-3 text-secondary m-1">! No Customer Found</p>
+        <p class="fs-5 text-muted m-1">Add a new customer to get started.</p>
+    </div>
+    <div class="table-responsive">
+        @if(filteredCustomerData().length > 0) {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="cursor-pointer text-nowrap"
+                        (click)="sortByName()">Name <img
+                            [src]="sortState() === 'none' ? 'sort-arrow.svg' : sortState() === 'asc' ? 'sort-up.svg' : 'sort-down.svg'"
+                            alt="sort" width="16" height="16"></th>
+                    <th scope="col">Email</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Pincode</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (data of filteredCustomerData(); track $index) {
+                <tr>
+                    <th>{{ data.name }}</th>
+                    <td class="w-25">{{ data.email }}</td>
+                    <td>{{ data.address.city }}</td>
+                    <td>{{ data.address.state }}</td>
+                    <td>{{ data.address.pincode }}</td>
+                    <td>
+                        @if(data.status === 'Active') {
+                        <span class="badge text-bg-success">Active</span>
+                        } @else {
+                        <span class="badge text-bg-danger">Inactive</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <img src="edit-btn.svg" alt="edit" width="20"
+                            class="cursor-pointer"
+                            (click)="onEditCustomer(data)"
+                            data-bs-toggle="modal"
+                            data-bs-target="#formEditModal" />
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        }
+
+    </div>
+</div>
+
+<div class="modal fade" id="formEditModal" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1"
+    #formEditModal aria-labelledby="formEditModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <p class="h3 modal-title text-muted"
+                    id="formInputModalLabel">Customer Details</p>
+                <button type="button" class="btn-close"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #form="ngForm">
+                    <div class="mb-3">
+                        <label for="name"
+                            class="form-label">Name</label>
+                        <input type="text" class="form-control"
+                            charsOnly placeholder="Name" #name="ngModel"
+                            id="name" name="name" required
+                            [(ngModel)]="nameEditInput"
+                            [class.is-invalid]="name.invalid && name.touched && name.dirty"
+                            [class.is-valid]="name.valid">
+                        <div class="invalid-feedback">Enter valid
+                            Name!</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email"
+                            class="form-label">Email</label>
+                        <input type="email" class="form-control"
+                            placeholder="Email" #email="ngModel"
+                            id="email"
+                            name="email" required
+                            [(ngModel)]="emailEditInput"
+                            [class.is-invalid]="email.invalid && email.touched && email.dirty"
+                            [class.is-valid]="email.valid">
+                        <div class="invalid-feedback">Enter valid
+                            Email!</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <!-- Address field component -->
+                        <app-address-field />
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="status"
+                            class="form-label">Status</label>
+                        <select class="form-select"
+                            aria-label="Default selection example" id="status"
+                            name="status"
+                            [(ngModel)]="statusEditInput" required>
+                            <option selected>Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div
+                        class="d-flex align-items-center justify-content-end gap-2">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary"
+                            data-bs-dismiss="modal"
+                            (click)="onUpdateCustomer()"
+                            [disabled]="form.invalid">Edit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

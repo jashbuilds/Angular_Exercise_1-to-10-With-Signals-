@@ -1,4 +1,5 @@
 export interface CustomerData {
+    id: number | string,
     name: string;
     email: string;
     address: {
@@ -6,4 +7,5 @@ export interface CustomerData {
         state: string;
         pincode: number | string;
     }
+    status: string;
 }

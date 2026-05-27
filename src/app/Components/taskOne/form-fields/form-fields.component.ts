@@ -1,8 +1,9 @@
-import { Component, effect, ElementRef, signal, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, output, signal, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AddressFieldComponent } from "./address-field/address-field.component";
-import { CustomerData } from './formfields.model';
+import { CustomerData } from '../../../Models/formfields.model';
 import { CharsOnlyDirective } from '../../../Directives/chars-only.directive';
+import { CustomerDataService } from '../../../Services/customer-data.service';
 
 @Component({
   selector: 'app-form-fields',
@@ -16,7 +17,7 @@ export class FormFieldsComponent {
 
   ngForm = viewChild(NgForm);
 
-  constructor() {
+  constructor(private customerDataService: CustomerDataService) {
     effect(() => {
       const modalEl = this.formModal()?.nativeElement;
       if (modalEl) {
@@ -32,19 +33,24 @@ export class FormFieldsComponent {
 
   nameInput = signal('')
   emailInput = signal('')
+  statusInput = signal('Active')
+
+
+  dataAdded = output()
 
   onSubmit(form: NgForm) {
 
-    this.customerData.update((data) => [...data, {
+    this.customerDataService.customerData.update((data) => [...data, {
       name: this.nameInput(),
       email: this.emailInput(),
       address: {
         city: this.addressField()?.cityInput() || '',
         state: this.addressField()?.stateInput() || '',
         pincode: this.addressField()?.pincodeInput() || ''
-      }
+      },
+      status: this.statusInput(),
     }]);
-    console.log(this.customerData());
+    this.dataAdded.emit();
     form.resetForm();
   }
 
@@ -55,6 +61,11 @@ export class FormFieldsComponent {
     this.addressField()?.cityInput.set('')
     this.addressField()?.stateInput.set('')
     this.addressField()?.pincodeInput.set(null)
+  }
+
+  isEmailValid() {
+    const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegExp.test(this.emailInput());
   }
 
 }
