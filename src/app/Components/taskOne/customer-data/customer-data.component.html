@@ -5,7 +5,7 @@
         *appUnless="customerService.customerData().length === 0">
         <img src="filter-icon.svg" alt="filter" width="18" height="18">
         <label for="status" class="form-label m-0 fw-medium">Status</label>
-        <select class="form-select w-auto" #status (change)="filterByStatus(status.value)"
+        <select class="form-select w-auto" #status (change)="filterByStatus()"
             aria-label="selection" id="status"
             name="status"
             [(ngModel)]="selectStatus" required>

@@ -13,7 +13,7 @@ export class AddressFieldComponent {
 
   cityInput = signal('')
   stateInput = signal('')
-  pincodeInput = signal<string | null>(null)
+  pincodeInput = signal<string | number>('')
 
   isAddressValid() {
     return this.cityInput() !== '' && this.stateInput() !== '' && this.pincodeInput() !== null && this.pincodeInput() !== '';

@@ -8,7 +8,7 @@ export class UnlessDirective {
   private hasView = false;
 
   constructor(
-    private templateRef: TemplateRef<any>,
+    private templateRef: TemplateRef<HTMLDivElement>,
     private viewContainer: ViewContainerRef
   ) { }
 

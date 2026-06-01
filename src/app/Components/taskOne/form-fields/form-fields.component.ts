@@ -61,7 +61,7 @@ export class FormFieldsComponent {
     this.emailInput.set('')
     this.addressField()?.cityInput.set('')
     this.addressField()?.stateInput.set('')
-    this.addressField()?.pincodeInput.set(null)
+    this.addressField()?.pincodeInput.set('')
   }
 
   isEmailValid() {

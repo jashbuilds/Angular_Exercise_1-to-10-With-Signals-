@@ -4,6 +4,7 @@ import { CustomerDataService } from '../../../Services/customer-data.service';
 import { AddressFieldComponent } from '../form-fields/address-field/address-field.component';
 import { FormsModule } from '@angular/forms';
 import { UnlessDirective } from '../../../Directives/unless.directive';
+import { CustomerData } from '../../../Models/formfields.model';
 
 @Component({
   selector: 'app-customer-data',
@@ -12,6 +13,8 @@ import { UnlessDirective } from '../../../Directives/unless.directive';
   styleUrl: './customer-data.component.css'
 })
 export class CustomerDataComponent {
+  
+  constructor(public customerService: CustomerDataService) { }
 
   filteredCustomerData = computed(() => {
     const status = this.selectStatus().toLowerCase();
@@ -31,18 +34,15 @@ export class CustomerDataComponent {
   isSortedByName = signal(false);
   selectStatus = signal<'all' | 'active' | 'inactive'>('all');
 
-  constructor(public customerService: CustomerDataService) { }
-
   nameEditInput = signal('');
   emailEditInput = signal('');
   statusEditInput = signal('Active');
 
   onCustomerAdded() {
-    console.log("Customer Added");
     console.log(this.customerService.customerData());
   }
 
-  onEditCustomer(data: any) {
+  onEditCustomer(data: CustomerData) {
     this.currentEditId.set(data.id)
     this.nameEditInput.set(data.name);
     this.emailEditInput.set(data.email);
@@ -94,9 +94,7 @@ export class CustomerDataComponent {
     }
   }
 
-  filterByStatus(status: string) {
-    console.log(status);
-
+  filterByStatus() {
     const selectedStatus = this.selectStatus();
     if (selectedStatus === 'all') {
       return this.customerService.customerData();
